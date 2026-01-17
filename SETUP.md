@@ -56,7 +56,8 @@ This guide will help you create a new set-me-up module using this template.
 
 ## Integrating into Your Blueprint Repository
 
-Once your module is created and published, you need to integrate it into your personal set-me-up blueprint repository.
+Once your module is created and published, you need to integrate it into
+your personal set-me-up blueprint repository.
 
 ### Step 1: Navigate to Your Blueprint Repository
 
@@ -109,7 +110,7 @@ git push origin main
 
 ## Module Structure
 
-```
+```text
 your-module-name/
 ├── .github/
 │   ├── workflows/
@@ -129,12 +130,14 @@ your-module-name/
 The `utilities.sh` file provides many helpful functions:
 
 ### OS Detection
+
 - `is_macos` - Check if running on macOS
 - `is_debian` - Check if running on Debian-based Linux
 - `is_arch_linux` - Check if running on Arch-based Linux
 - `is_ubuntu` - Check if running on Ubuntu
 
 ### Package Management
+
 - `brew_install "package"` - Install via Homebrew
 - `brew_update` - Update Homebrew
 - `brew_upgrade` - Upgrade Homebrew packages
@@ -145,6 +148,7 @@ The `utilities.sh` file provides many helpful functions:
 - `install_pkg_from_URL "url"` - Install .pkg from URL
 
 ### Utilities
+
 - `ask_for_sudo` - Request sudo privileges
 - `cmd_exists "command"` - Check if command exists
 - `action "message"` - Print action message
@@ -233,10 +237,12 @@ The template includes three automated workflows:
 ### Lint Workflow (`.github/workflows/lint.yml`)
 
 Runs automatically on:
+
 - Pull requests that modify `.md`, `.sh`, or `.bash` files
 - Pushes to `main` or `master` branch
 
 Performs:
+
 - **Markdown Lint**: Checks markdown formatting
 - **Link Checker**: Validates all links in markdown files
 - **ShellCheck**: Static analysis for shell scripts

@@ -32,5 +32,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integration with set-me-up utilities
 - Comprehensive documentation
 
-[unreleased]: https://github.com/dotbrains/template-module/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/dotbrains/template-module/releases/tag/v1.0.0
