@@ -31,4 +31,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cross-platform support (macOS, Linux)
 - Integration with set-me-up utilities
 - Comprehensive documentation
-
