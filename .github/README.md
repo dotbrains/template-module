@@ -1,5 +1,8 @@
 # 'module-name' Module
 
+[![Lint](https://github.com/dotbrains/template-module/actions/workflows/lint.yml/badge.svg)](https://github.com/dotbrains/template-module/actions/workflows/lint.yml)
+[![Tests](https://github.com/dotbrains/template-module/actions/workflows/tests.yml/badge.svg)](https://github.com/dotbrains/template-module/actions/workflows/tests.yml)
+
 This repository is designed to be used as a submodule to the
 [`set-me-up` blueprint](https://github.com/dotbrains/set-me-up-blueprint)
 repository.
