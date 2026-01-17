@@ -253,6 +253,7 @@ Performs:
 Runs automatically on all pushes and pull requests.
 
 Performs:
+
 - **Cross-platform Testing**: Tests on both Ubuntu and macOS
 - **Mock Environment**: Creates a mock set-me-up environment with utilities.sh
 - **Syntax Validation**: Verifies bash syntax for all scripts
@@ -264,6 +265,7 @@ Performs:
 #### Test Environment
 
 The tests workflow creates a mock environment:
+
 - Mock `utilities.sh` with all common functions
 - Package management functions that log instead of installing
 - OS detection functions that work in CI
@@ -287,6 +289,7 @@ You can customize tests for your module:
 Runs automatically when you push a version tag (e.g., `v1.0.0`).
 
 Features:
+
 - Extracts version from git tag
 - Reads changelog from `CHANGELOG.md` (if present)
 - Generates comprehensive release notes
@@ -296,6 +299,7 @@ Features:
 ### Creating a Release
 
 1. **Update CHANGELOG.md** with your changes:
+
    ```markdown
    ## [1.0.0] - 2026-01-17
    
@@ -305,12 +309,14 @@ Features:
    ```
 
 2. **Commit your changes**:
+
    ```bash
    git add .
    git commit -m "Prepare v1.0.0 release"
    ```
 
 3. **Create and push a version tag**:
+
    ```bash
    git tag v1.0.0
    git push origin main
@@ -328,6 +334,7 @@ Features:
 You can customize the workflows for your specific needs:
 
 **Add additional linting:**
+
 ```yaml
 # In .github/workflows/lint.yml
 - name: Custom lint step
@@ -358,6 +365,7 @@ git push
 ## Questions?
 
 See existing modules for reference:
+
 - `modules/xcode/` - Simple macOS-only module
 - `modules/macports/` - Module with package file
 - `modules/homebrew/` - Complex cross-platform module
