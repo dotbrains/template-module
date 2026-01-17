@@ -1,0 +1,147 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Extract changelog for this version
+        id: changelog
+        run: |
+          VERSION="v${{ steps.version.outputs.version }}"
+          
+          # Check if CHANGELOG.md exists
+          if [ ! -f CHANGELOG.md ]; then
+            echo "⚠️ CHANGELOG.md not found, using generic release notes"
+            echo "extract_success=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Extract the changelog section for this version
+          # If version section exists, extract it; otherwise use Unreleased section
+          if grep -q "## \\[$VERSION\\]" CHANGELOG.md || grep -q "## $VERSION" CHANGELOG.md; then
+            # Extract changelog between this version and the next version/unreleased section
+            sed -n "/## \\[\\?$VERSION\\]\\?/,/## \\[/p" CHANGELOG.md | sed '$ d' > changelog_extract.md
+            echo "✓ Found changelog section for $VERSION"
+          elif grep -q "## \\[Unreleased\\]" CHANGELOG.md; then
+            # Use Unreleased section if version-specific section doesn't exist
+            sed -n '/## \\[Unreleased\\]/,/## \\[/p' CHANGELOG.md | sed '$ d' > changelog_extract.md
+            echo "✓ Using Unreleased section for $VERSION"
+          else
+            echo "⚠️ No suitable changelog section found"
+            echo "extract_success=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "extract_success=true" >> $GITHUB_OUTPUT
+          
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          VERSION="v${{ steps.version.outputs.version }}"
+          
+          # Extract module name from repository name
+          REPO_NAME="${GITHUB_REPOSITORY##*/}"
+          MODULE_NAME="${REPO_NAME#set-me-up-}"
+          
+          cat > release_notes.md << HEADER
+          ## Set-Me-Up Module Release
+          
+          This release includes the **${MODULE_NAME}** module for the set-me-up project.
+          HEADER
+          
+          # Add changelog if it was successfully extracted
+          if [ "${{ steps.changelog.outputs.extract_success }}" = "true" ]; then
+            echo "" >> release_notes.md
+            echo "## What's Changed" >> release_notes.md
+            echo "" >> release_notes.md
+            # Remove the version header line from the extract
+            tail -n +2 changelog_extract.md >> release_notes.md
+            echo "" >> release_notes.md
+            echo "---" >> release_notes.md
+          fi
+          
+          cat >> release_notes.md << 'FOOTER'
+          
+          ### Installation
+          
+          Add this module to your set-me-up blueprint repository:
+          
+          ```bash
+          # Navigate to your blueprint repository
+          cd ~/your-blueprint-repo/dotfiles/modules
+          
+          # Add as submodule
+          git submodule add https://github.com/${{ github.repository }}.git MODULE_NAME
+          
+          # Initialize and update
+          git submodule update --init --recursive
+          ```
+          
+          Or clone a specific version:
+          
+          ```bash
+          git clone --branch v${{ steps.version.outputs.version }} https://github.com/${{ github.repository }}.git
+          ```
+          
+          ### Usage
+          
+          Execute the module script from your set-me-up configuration:
+          
+          ```bash
+          "$HOME/set-me-up/dotfiles/modules/MODULE_NAME/MODULE_NAME.sh"
+          ```
+          
+          ### Requirements
+          
+          - Existing set-me-up installation
+          - Compatible with macOS and Linux systems
+          
+          ### Documentation
+          
+          See [README.md](README.md) for complete documentation and usage instructions.
+          FOOTER
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release v${{ steps.version.outputs.version }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate release summary
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY##*/}"
+          MODULE_NAME="${REPO_NAME#set-me-up-}"
+          
+          echo "## ✅ Release v${{ steps.version.outputs.version }} Published" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Quick Install as Submodule" >> $GITHUB_STEP_SUMMARY
+          echo '```bash' >> $GITHUB_STEP_SUMMARY
+          echo 'cd ~/your-blueprint-repo/dotfiles/modules' >> $GITHUB_STEP_SUMMARY
+          echo 'git submodule add --branch v${{ steps.version.outputs.version }} https://github.com/${{ github.repository }}.git '"${MODULE_NAME}" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
