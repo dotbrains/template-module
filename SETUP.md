@@ -5,12 +5,14 @@ This guide will help you create a new set-me-up module using this template.
 ## Quick Start
 
 1. **Copy this template to create your new module:**
+
    ```bash
    cp -r modules/template-module modules/your-module-name
    cd modules/your-module-name
    ```
 
 2. **Rename the main script:**
+
    ```bash
    mv module-name.sh your-module-name.sh
    chmod +x your-module-name.sh
@@ -29,6 +31,7 @@ This guide will help you create a new set-me-up module using this template.
    - Update platform support checkboxes
 
 5. **Initialize git repository:**
+
    ```bash
    git init
    git add .
@@ -36,6 +39,7 @@ This guide will help you create a new set-me-up module using this template.
    ```
 
 6. **Create a GitHub repository** and push:
+
    ```bash
    git remote add origin https://github.com/dotbrains/set-me-up-YOUR-MODULE.git
    git branch -M main
@@ -43,6 +47,7 @@ This guide will help you create a new set-me-up module using this template.
    ```
 
 7. **Add as submodule to set-me-up:**
+
    ```bash
    cd /path/to/set-me-up
    git submodule add https://github.com/dotbrains/set-me-up-YOUR-MODULE.git modules/your-module-name

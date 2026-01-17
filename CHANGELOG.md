@@ -25,12 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - YYYY-MM-DD
 
-### Added
+### Features
 
 - Initial release of MODULE_NAME module
 - Cross-platform support (macOS, Linux)
 - Integration with set-me-up utilities
 - Comprehensive documentation
 
-[unreleased]: https://github.com/YOUR-USERNAME/set-me-up-MODULE-NAME/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/YOUR-USERNAME/set-me-up-MODULE-NAME/releases/tag/v1.0.0
+[unreleased]: https://github.com/dotbrains/template-module/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/dotbrains/template-module/releases/tag/v1.0.0
