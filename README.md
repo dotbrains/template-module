@@ -54,4 +54,7 @@ for more details on this point.
 
 ## License
 
-This project is licensed under the [PolyForm Shield License 1.0.0](https://polyformproject.org/licenses/shield/1.0.0/) -- see [LICENSE](LICENSE) for details.
+Licensed under [PolyForm Shield 1.0.0][license].
+See [LICENSE](LICENSE) for details.
+
+[license]: https://polyformproject.org/licenses/shield/1.0.0/
